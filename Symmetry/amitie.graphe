@@ -1,0 +1,11 @@
+4 4
+noms sommets
+0 Jean
+1 Daniel
+2 Yukiko
+3 Michel
+arcs
+0 1
+1 0
+0 3
+2 3

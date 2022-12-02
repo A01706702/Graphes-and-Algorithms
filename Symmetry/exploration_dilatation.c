@@ -31,7 +31,7 @@ booleen * dilatation(graphe* G, booleen *E){
     if(E[i]) {
       p = G->gamma[i];
       while(p != NULL) {
-        D[p->nsom] = 1;
+        D[p->som] = 1;
         p = p->suivant;
       }
     }
