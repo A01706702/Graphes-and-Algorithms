@@ -9,13 +9,66 @@
 #define VRAI 1
 #define FAUX 0
 
-/***************************************************************************/
-/* retourne le dilate D de l'ensemble E dans le graphe G                   */
-/* les ensembles E et D sont repr�sent�s par des tableaux booleens         */
-/* - la m�moire pour E est suppos�e allou�e avec autant de case            */
-/*   que de sommets dans G                                                 */
-/* - la m�moire pour D est allou�e a l'int�rieur de la fonction            */
-/***************************************************************************/
+
+/* ci-dessous, d�finition d'une structure de liste FIFO d'entiers (pour stocker des ensembles de sommets d'un graphe) */
+
+typedef struct {
+  int n; /* nombre d'elements */
+  int prem; /* indice du premier element */
+  int der; /* indice du dernier elemeent */
+  int capacite; /* nombre d'elements que la liste peut contenir */
+  int * elements; /* taleau contenant les elements de la liste*/
+} ListeFIFO;
+
+ListeFIFO* initListeFIFO(int capacite){
+  ListeFIFO* l;
+  l = (ListeFIFO*)malloc(sizeof(ListeFIFO));
+  l->n = 0;
+  l->capacite = capacite;
+  l->prem = 0;
+  l->der = 0;
+  l->elements = (int*)calloc(capacite, sizeof(int));
+  return l;
+}
+
+void termineListeFIFO(ListeFIFO *l){
+  free(l->elements);
+  free(l);  
+}
+
+int selectionSuppressionListeFIFO(ListeFIFO *l){
+  int el;
+  if (l->n > 0){
+    el = l->elements[l->prem];
+    l->n --;
+    l->prem = (l->prem+1)%l->capacite;
+    return el;
+  }
+  else{
+    fprintf(stderr, "Erreur : liste vide\n");
+    return -1;
+  }      
+}
+
+booleen insertionListeFIFO(ListeFIFO *l, int x){
+  if (l->n < l->capacite){
+    l->elements[l->der] = x;
+    l->der = (l->der+1)%l->capacite;
+    l->n ++;
+    return VRAI; /* pour indiquer que l'insertion ns'est bien deroulee */
+  }
+  else{
+    fprintf(stderr, "Erreur : liste pleine \n");
+    return FAUX; /* pour indiquer que l'insertion n'a pas etre effectuee */
+  }      
+}
+
+
+booleen estNonVideListeFIFO(ListeFIFO *l){
+  if(l->n == 0) return FAUX;
+  else return VRAI;
+}
+
 booleen * dilatation(graphe* G, booleen *E){
   booleen *D; /* tableau booleen pour stocker le r�sultat de ma dilatation */
   int x; /* pour parcourir les sommets de G */
@@ -34,30 +87,50 @@ booleen * dilatation(graphe* G, booleen *E){
 }
 
 /***************************************************************************/
-/* retourne l'exploration du grapge G depuis le sommet x                   */
-/* en utilisant l'algorithme naif                                          */
+/* retourne l'exploration du graphe G depuis le sommet x                   */
+/* en utilisant l'algorithme exploration largeur (version 1)               */
 /***************************************************************************/
-booleen * explorationNaif(graphe* G, int x){
-  booleen *D,*E,*Z; /* tableaux booleens pour stocker les ensembles de sommets */
-  int y;            /* indice muet pour un sommet  */
+booleen * explorationLargeur(graphe* G, int x){
+  booleen *Z;       /* tableau booleens pour stocker l'exploration */
+  ListeFIFO *E, *D; /* Liste pour les ensembles de sommets */
+  ListeFIFO *tmp;   /* variable temporaire pour permettre l'echange des liste E et D */
+  pcell p; /* pointeur-maillon pour parcourir des listes de successeurs */
+  int y, z;         /* sommets du graphe */
   int k;            /* num�ro d'iteration */
-  
+
   /* initialisation de l'ensemble E : E := {x}*/
-  E = (booleen*) calloc(G->nsom, sizeof(booleen)); /* calloc alloue la m�moire et l'initialise � 0 */
-  E[x] = VRAI;
+  E = initListeFIFO(G->nsom);
+  insertionListeFIFO(E, x);
+  /* initialisation de l'ensemble Z : Z := {x}*/
   Z = (booleen*) calloc(G->nsom, sizeof(booleen));
   Z[x] = VRAI;
-  
-  /* Completez ci-dessous avec votre implementation de l'algorithme exploration naif */
-  
-  for(k = 0; k < G->nsom; k++) {
-    D = dilatation(G, E);
-    for(int i = 0; i < G->nsom; i++) Z[i] = Z[i] || D[i];
-    E = D;
+  /* initialisation de l'ensemble D */
+  D = initListeFIFO(G->nsom);
+
+  /* Completer ici avec le code l'algorithme exploration largeur */
+
+  while(estNonVideListeFIFO(E)) {
+    y = selectionSuppressionListeFIFO(E);
+
+    booleen *Y = (booleen*) calloc(G->nsom, sizeof(booleen));
+    Y[y] = VRAI;
+
+    Y = dilatation(G, Y);
+
+    for(z = 0; z < G->nsom; z++) {
+      if(Y[z] && !Z[z]) {
+        insertionListeFIFO(E, z);
+        Z[z] = VRAI;
+      }
+    }
   }
 
+  termineListeFIFO(D);
+  termineListeFIFO(E);
+  
   return Z;
 }
+
 
 /* ====================================================================== */
 int main(int argc, char **argv)
@@ -95,7 +168,7 @@ int main(int argc, char **argv)
   
   debut =  clock();
 
-  Z = explorationNaif(G,x);       /* traitement : calcule le symetrique de g */
+  Z = explorationLargeur(G,x);       /* traitement : calcule le symetrique de g */
 
   fin = clock();
 
