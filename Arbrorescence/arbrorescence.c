@@ -151,9 +151,6 @@ int main(int argc, char **argv)
 
   int *arb;
 
-  printf("hello\n");
-
-  
   if (argc != 3)
   {
     fprintf(stderr, "usage: %s <donnee.graphe> <sommet_initial_a_explorer> \n", argv[0]);
@@ -174,7 +171,7 @@ int main(int argc, char **argv)
     exit(0);
   }
 
-  fprintf(stderr, "%s lu\n", argv[1]);
+//   fprintf(stderr, "%s lu\n", argv[1]);
   
   debut =  clock();
 
@@ -184,8 +181,20 @@ int main(int argc, char **argv)
   fin = clock();
 
   for(int i = 0; i < G->nsom; i++) {
-    if(arb[i] != -1) printf("%d -> %d\n", i, arb[i]);
-    else printf("%d -> NULL\n", i);
+    if(arb[i] != -1) printf("%d -> %d\n", arb[i], i);
+    else printf("%d : sender\n", i);
+
+    // printf("%d ", i);
+    // if(arb[i] != -1) {
+    //    int j = arb[i];
+    //    while(j != x){
+    //         printf("<- %d ", j);
+    //         j = arb[j];
+    //    }
+    // printf("<- %d\n", x);
+    // }
+
+    // else printf(": sender\n", i);
   }
 
 //   /* On afffiche l'exploration et on compte le nombre de sommets explor�s */
