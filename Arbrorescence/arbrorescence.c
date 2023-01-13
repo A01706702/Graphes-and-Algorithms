@@ -181,7 +181,8 @@ int main(int argc, char **argv)
   fin = clock();
 
   for(int i = 0; i < G->nsom; i++) {
-    printf("%d -> %d\n", i, arb[i]);
+    if(arb[i] != NULL) printf("%d -> %d\n", i, arb[i]);
+    else printf("%d -> NULL", i);
   }
 
 //   /* On afffiche l'exploration et on compte le nombre de sommets explor�s */
