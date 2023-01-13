@@ -108,7 +108,7 @@ booleen * arbrorescence(graphe* G, int x){
   D = initListeFIFO(G->nsom);
 
   arbrorescence = (int*) calloc(G->nsom, sizeof(int));
-  arbrorescence[x] = NULL;
+  arbrorescence[x] = -1;
 
   /* Completer ici avec le code l'algorithme exploration largeur */
 
@@ -124,6 +124,7 @@ booleen * arbrorescence(graphe* G, int x){
       if(Y[z] && !Z[z]) {
         insertionListeFIFO(E, z);
         Z[z] = VRAI;
+        // printf("Sommet %d %d\n", z, y);   
         arbrorescence[z] = y;
       }
     }
@@ -150,7 +151,8 @@ int main(int argc, char **argv)
 
   int *arb;
 
-  arb = (int*) calloc(G->nsom, sizeof(int));
+  printf("hello\n");
+
   
   if (argc != 3)
   {
@@ -176,13 +178,14 @@ int main(int argc, char **argv)
   
   debut =  clock();
 
+  arb = (int*) calloc(G->nsom, sizeof(int));
   arb = arbrorescence(G,x);       /* traitement : calcule le symetrique de g */
 
   fin = clock();
 
   for(int i = 0; i < G->nsom; i++) {
-    if(arb[i] != NULL) printf("%d -> %d\n", i, arb[i]);
-    else printf("%d -> NULL", i);
+    if(arb[i] != -1) printf("%d -> %d\n", i, arb[i]);
+    else printf("%d -> NULL\n", i);
   }
 
 //   /* On afffiche l'exploration et on compte le nombre de sommets explor�s */
@@ -205,10 +208,9 @@ int main(int argc, char **argv)
 
 //   printf("%d sommets poeuvent etre atteints depuis %d et %d sommets ne peuvent pas etre atteints \n", nZ, x, G->nsom - nZ);
   
-  free(Z);
   free(arb);
 
-  printf("Exploration calculee en %lf secondes\n", ((double)fin-debut)/CLOCKS_PER_SEC);
+  printf("Arbrorescence calculee en %lf secondes\n", ((double)fin-debut)/CLOCKS_PER_SEC);
 
   return 0;
 } /* main() */
