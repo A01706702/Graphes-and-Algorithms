@@ -10,7 +10,7 @@ typedef unsigned char booleen;
 #define VRAI 1
 #define FAUX 0
 
-/* ci-dessous, définition d'une structure de liste FIFO d'entiers (pour stocker des ensembles de sommets d'un graphe) */
+/* ci-dessous, dï¿½finition d'une structure de liste FIFO d'entiers (pour stocker des ensembles de sommets d'un graphe) */
 
 typedef struct {
   int n; /* nombre d'elements */
@@ -78,7 +78,7 @@ booleen * explorationLargeur(graphe* G, int x){
   ListeFIFO *tmp;   /* variable temporaire pour permettre l'echange des liste E et D */
   pcell p; /* pointeur-maillon pour parcourir des listes de successeurs */
   int y, z;         /* sommets du graphe */
-  int k;            /* numéro d'iteration */
+  int k;            /* numï¿½ro d'iteration */
 
   
   /* initialisation de l'ensemble E : E := {x}*/
@@ -116,10 +116,10 @@ booleen * explorationLargeur(graphe* G, int x){
 
 /* ====================================================================== */
 /*! \fn graphe * fermetureSymEfficace(graphe * g)
-    \param g (entrée) : un graphe.
+    \param g (entrï¿½e) : un graphe.
     \return un graphe.
-    \brief construit et retourne la fermeture symétrique du graphe g. 
-    \warning  L'algorithme est efficace (complexité lineaire) :-).
+    \brief construit et retourne la fermeture symï¿½trique du graphe g. 
+    \warning  L'algorithme est efficace (complexitï¿½ lineaire) :-).
 */
 graphe * fermetureSymEfficace(graphe * g)
 /* ====================================================================== */
@@ -208,13 +208,13 @@ int PartitionStochastique(int *A, double *T, int p, int r)
 
 /* =============================================================== */
 /*! \fn void TriRapideStochastique (int * A, double *T, int p, int r)
-    \param A (entrée/sortie) : un tableau d'entiers
-    \param T (entrée) : un tableau de valeurs de type double.
-    \param p (entrée) : indice du début de la zone à trier.
-    \param r (entrée) : indice de fin de la zone à trier.
+    \param A (entrï¿½e/sortie) : un tableau d'entiers
+    \param T (entrï¿½e) : un tableau de valeurs de type double.
+    \param p (entrï¿½e) : indice du dï¿½but de la zone ï¿½ trier.
+    \param r (entrï¿½e) : indice de fin de la zone ï¿½ trier.
     \brief tri par ordre croissant des valeurs du tableau \b T.
            Le tri s'effectue sur un tableau \b A contenant les index
-           des elements de \b T, l'indice \b p (compris) à l'indice \b r (compris).
+           des elements de \b T, l'indice \b p (compris) ï¿½ l'indice \b r (compris).
 */
 void TriRapideStochastique (int * A, double *T, int p, int r)
 /* =============================================================== */
@@ -254,9 +254,18 @@ graphe * algoKruskal(graphePondere *Gp){
 
   T = initGraphe(Gp->nsom, Gp->nsom-1);
 
-  O = triAretes(Gp); /* O[i] est l'index de la i-ème arête par ordre croissant de poids; les extremites de la i-ème aretes sont donc Gp->I[O[i]] et Gp->T[O[i]] */
+  O = triAretes(Gp); /* O[i] est l'index de la i-ï¿½me arï¿½te par ordre croissant de poids; les extremites de la i-ï¿½me aretes sont donc Gp->I[O[i]] et Gp->T[O[i]] */
 
-  /* A completer ici */
+  while(k < Gp->nsom-1){
+    x = Gp->I[O[i]];
+    y = Gp->T[O[i]];
+    if(!CC(T, Gp->I[O[0]])[x]){
+      ajouteSuccesseur(T, x, y);
+      poidsArbre += Gp->poids[O[i]];
+      k++;
+    }
+    i++;
+  }
 
   printf("Le poids de l'arbre de poids minimum vaut : %lg \n", poidsArbre);
   return T;
@@ -279,7 +288,7 @@ int main(int argc, char **argv)
     exit(0);
   }
 
-  Gp = litGraphePondere(argv[1]);       /* Lit un graphe pondere stockée dans un fichier */
+  Gp = litGraphePondere(argv[1]);       /* Lit un graphe pondere stockï¿½e dans un fichier */
 
   fprintf(stderr, "%s lu\n", argv[1]);
   
@@ -291,10 +300,10 @@ int main(int argc, char **argv)
 
   fprintf(stderr, "APmin calcule en %lf secondes\n", ((double)fin-debut)/CLOCKS_PER_SEC);
     
-  /* observer que l'on n'a pas recopié l'arbre de poids minimum les informations relative au sommet, on peut le faire avec la fonction cpyInfo2(Gp,T) */
+  /* observer que l'on n'a pas recopiï¿½ l'arbre de poids minimum les informations relative au sommet, on peut le faire avec la fonction cpyInfo2(Gp,T) */
 
   cpyInfo2(Gp,T);  
-  sauvegardeGraphe(T, argv[2], 11); /* Sauvegarde le résultat dans un fichier */
+  sauvegardeGraphe(T, argv[2], 11); /* Sauvegarde le rï¿½sultat dans un fichier */
  
   
   termineGraphePondere(Gp);
