@@ -259,7 +259,7 @@ graphe * algoKruskal(graphePondere *Gp){
   while(k < Gp->nsom-1){
     x = Gp->I[O[i]];
     y = Gp->T[O[i]];
-    if(!CC(T, Gp->I[O[0]])[x]){
+    if(!CC(T, x)[y]){
       ajouteSuccesseur(T, x, y);
       poidsArbre += Gp->poids[O[i]];
       k++;
