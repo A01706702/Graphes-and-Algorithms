@@ -170,8 +170,6 @@ int main(int argc, char **argv)
     fprintf(stderr, "Erreur: pas de sommet d'indice %d dans %s\n", x, argv[1]);
     exit(0);
   }
-
-//   fprintf(stderr, "%s lu\n", argv[1]);
   
   debut =  clock();
 
@@ -183,39 +181,7 @@ int main(int argc, char **argv)
   for(int i = 0; i < G->nsom; i++) {
     if(arb[i] != -1) printf("%d -> %d\n", arb[i], i);
     else printf("%d : sender\n", i);
-
-    // printf("%d ", i);
-    // if(arb[i] != -1) {
-    //    int j = arb[i];
-    //    while(j != x){
-    //         printf("<- %d ", j);
-    //         j = arb[j];
-    //    }
-    // printf("<- %d\n", x);
-    // }
-
-    // else printf(": sender\n", i);
   }
-
-//   /* On afffiche l'exploration et on compte le nombre de sommets explor�s */
-//   nZ = 0;
-//   printf("L'exploration depuis le sommet %d contient les sommets", x);
-//   for(y = 0; y < G->nsom; y++)
-//     if(Z[y] == VRAI){
-//       printf(" %d", y);
-//       nZ++;
-//     }
-//   printf(".\n");
-
-//   /* si un nom est diponible pour les sommets, on affiche aussi les noms */
-//   if( (G->info != NULL) && G->info[0].nom != NULL){
-//     printf("--\nDont les noms sont :\n");
-//     for(y = 0; y < G->nsom; y++)
-//       if(Z[y] == VRAI)
-// 	printf("%s\n", G->info[y].nom);
-//   }
-
-//   printf("%d sommets poeuvent etre atteints depuis %d et %d sommets ne peuvent pas etre atteints \n", nZ, x, G->nsom - nZ);
   
   free(arb);
 
