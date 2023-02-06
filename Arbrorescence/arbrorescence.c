@@ -77,11 +77,12 @@ booleen * dilatation(graphe* G, booleen *E){
      d'autant de cases que de sommets de G */
   D = (booleen *) calloc(G->nsom, sizeof(booleen));
 
-  for (x = 0; x < G->nsom; x++)
-    if(E[x] == VRAI){
-      for(p = G->gamma[x]; p != NULL; p = p->suivant)
-	D[p->som] = VRAI;
+  for (x = 0; x < G->nsom; x++) {
+    if(E[x] == VRAI) {
+      for(p = G->gamma[x]; p != NULL; p = p->suivant) D[p->som] = VRAI;
     }
+  }
+
   return D;
 }
 
@@ -124,7 +125,6 @@ booleen * arbrorescence(graphe* G, int x){
       if(Y[z] && !Z[z]) {
         insertionListeFIFO(E, z);
         Z[z] = VRAI;
-        // printf("Sommet %d %d\n", z, y);   
         arbrorescence[z] = y;
       }
     }
